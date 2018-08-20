@@ -1,0 +1,3 @@
+rootProject.name = 'moveablefeast'
+
+include ':app'
