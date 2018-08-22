@@ -5,13 +5,17 @@ import { View, Text, TextInput, StyleSheet, Button } from 'react-native';
 class PlaceInput extends Component {
   state = {
     placeName: '',
+  };
+
+  componentDidMount() {
+
   }
 
   placeNameChangedHandler = val => {
     this.setState({
       placeName: val
     });
-  }
+  };
 
   placeSubmitHandler = () => {
     if (this.state.placeName.trim() === '') {
