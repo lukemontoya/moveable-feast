@@ -1,13 +1,10 @@
 import {
   ADD_PLACE,
-  DELETE_PLACE,
-  SELECT_PLACE,
-  DESELECT_PLACE
+  DELETE_PLACE
 } from '../actions/actionTypes';
 
 const initialState = {
-  places: [],
-  selectedPlace: null
+  places: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -25,26 +22,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         places: state.places.filter(place => {
-          return place.key !== state.selectedPlace.key;
-        }),
-        selectedPlace: null
+          return place.key !== action.placeKey;
+        })
       };
-
-      case SELECT_PLACE:
-        return {
-          ...state,
-          selectedPlace: state.places.find(place => {
-            return place.key === action.placeKey;
-          })
-        };
-
-      case DESELECT_PLACE:
-        return {
-          ...state,
-          selectedPlace: null
-        };
     default:
-        return state;
+      return state;
   }
 };
 
