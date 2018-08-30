@@ -48,3 +48,4 @@ RNTester/build
 
 # IOS build files
 /ios/build
+build/
