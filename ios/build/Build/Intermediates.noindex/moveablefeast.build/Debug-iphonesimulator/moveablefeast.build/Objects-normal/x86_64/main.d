@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/mattmontoya/capstone/moveable-feast/ios/moveablefeast/main.m \
-  /Users/mattmontoya/capstone/moveable-feast/ios/moveablefeast/AppDelegate.h
+  /Users/mattmontoya/capstone3/moveable-feast/ios/moveablefeast/main.m \
+  /Users/mattmontoya/capstone3/moveable-feast/ios/moveablefeast/AppDelegate.h

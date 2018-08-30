@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 
 import PlaceList from '../../components/PlaceList';
 import { getPlaces } from '../../store/actions/index';
+import MapView from 'react-native-maps';
 
 class FindPlaceScreen extends Component {
   state = {
@@ -102,8 +103,18 @@ class FindPlaceScreen extends Component {
         </Animated.View>
       )
     }
+    content = (
+      <MapView initialRegion={{
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }}
+      style={styles.map}
+      />
+    )
     return (
-      <View style={this.state.placesLoaded ? null : styles.buttonContainer}>
+      <View style={styles.container}>
         {content}
       </View>
     )
@@ -111,6 +122,11 @@ class FindPlaceScreen extends Component {
 }
 
 const styles = StyleSheet.create ({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
   buttonContainer: {
     flex: 1,
     justifyContent: "center",
@@ -126,6 +142,9 @@ const styles = StyleSheet.create ({
     color: 'blue',
     fontWeight: 'bold',
     fontSize: 26
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject
   }
 });
 
