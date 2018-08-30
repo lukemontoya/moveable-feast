@@ -26,8 +26,8 @@ const startTabs = () => {
         },
         {
           screen: 'moveable-feast.SharePlaceScreen',
-          label: 'Share Place',
-          title: 'Share Place',
+          label: 'Add a Place',
+          title: 'Add a Place',
           icon: sources[1],
           navigatorButtons: {
             leftButtons: [

@@ -45,3 +45,6 @@ project.xcworkspace
 # ReactCommon subdir shouldn't have Xcode project
 /ReactCommon/**/*.xcodeproj
 RNTester/build
+
+# IOS build files
+/ios/build

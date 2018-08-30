@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+
 import { addPlace } from '../../store/actions/index';
 import PlaceInput from '../../components/PlaceInput';
 import MainText from '../../components/UI/MainText';
@@ -29,6 +30,10 @@ class SharePlaceScreen extends Component {
         validationRules: {
           notEmpty: true
         }
+      },
+      location: {
+        value: null,
+        valid: false
       }
     }
   };
@@ -60,14 +65,31 @@ class SharePlaceScreen extends Component {
             touched: true
           }
         }
+      };
+    });
+  };
+
+locationPickedHandler = location => {
+  this.setState(prevState => {
+    return {
+      controls: {
+        ...prevState.controls,
+        location: {
+          value: location,
+          valid: true
+        }
       }
-    })
-  }
-  placeAddedHandler = (placeName) => {
-    if(this.state.controls.placeName.value.trim() !== "") {
-      this.props.onAddPlace(this.state.controls.placeName.value)
     }
-  }
+  });
+}
+
+  placeAddedHandler = (placeName) => {
+    this.props.onAddPlace(
+      this.state.controls.placeName.value,
+      this.state.controls.location.value
+    );
+  };
+
   render () {
     return (
       <ScrollView>
@@ -76,7 +98,7 @@ class SharePlaceScreen extends Component {
             <HeadingText>Add a Restaurant</HeadingText>
           </MainText>
           <PickImage />
-          <PickLocation />
+          <PickLocation onLocationPick={this.locationPickedHandler} />
           <PlaceInput
             placeData={this.state.controls.placeName}
             onChangeText={this.placeNameChangedHandler}
@@ -85,7 +107,10 @@ class SharePlaceScreen extends Component {
             <Button
               title="Add a place"
               onPress={this.placeAddedHandler}
-              disabled={!this.state.controls.placeName.valid}
+              disabled={
+                !this.state.controls.placeName.valid ||
+                !this.state.controls.location.valid
+              }
             />
           </View>
         </KeyboardAvoidingView>
@@ -117,7 +142,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddPlace: (placeName) => dispatch(addPlace(placeName))
+    onAddPlace: (placeName, location) => dispatch(addPlace(placeName, location))
   }
 }
 

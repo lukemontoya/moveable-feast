@@ -1,4 +1,4 @@
-import { TRY_AUTH } from './actionTypes';
+import { TRY_AUTH, AUTH_SET_TOKEN } from './actionTypes';
 import startMainTabs from "../../screens/MainTabs/startMainTabs";
 
 
@@ -29,11 +29,33 @@ export const tryAuth = (authData, authMode) => {
         })
         .then(res => res.json())
         .then(parsedRes => {
-          if (parsedRes.error) {
+          if (!parsedRes.idToken) {
             alert("Authentication failed, try again!");
           } else {
+            dispatch(authSetToken(parsedRes.token))
             startMainTabs();
           }
         });
   };
 };
+
+export const authSetToken = token => {
+  return {
+    type: AUTH_SET_TOKEN,
+    token: token
+  }
+}
+
+export const authGetToken = () => {
+  return (dispatch, getState) => {
+    const promise = new Promise((resolve, reject) => {
+      const token = getState().auth.token;
+      if (!token) {
+        reject();
+      } else {
+          resolve(token);
+      }
+    });
+    return promise;
+  }
+}

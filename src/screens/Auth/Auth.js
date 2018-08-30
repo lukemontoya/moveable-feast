@@ -21,7 +21,6 @@ import ButtonWithBackground from '../../components/UI/ButtonWithBackground';
 import validate from '../../utility/validation';
 import { tryAuth } from '../../store/actions/index';
 
-import pandaImage from '../../assets/Panda2.jpg';
 import burgerImage from '../../assets/burger.jpg';
 
 class AuthScreen extends Component {

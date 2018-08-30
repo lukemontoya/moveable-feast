@@ -11,23 +11,21 @@ export const addPlace = (placeName, location) => {
       method: "POST",
       body: JSON.stringify(placeData)
     })
-    .catch(err => console.log(err))
+
     .then(res => res.json())
     .then(parsedRes => {
       console.log(parsedRes);
-    });
+    })
+    .catch(err => console.log(err))
   };
 };
 
 export const getPlaces = () => {
     return dispatch => {
         fetch("https://moveablefeast-a4fdc.firebaseio.com/places.json")
-        .catch(err => {
-            alert("Something went wrong");
-            console.log(err);
-        })
         .then(res => res.json())
         .then(parsedRes => {
+          console.log('parsedRes', parsedRes)
             const places = [];
             for (let key in parsedRes) {
                 places.push({
@@ -36,7 +34,11 @@ export const getPlaces = () => {
                 });
             }
             dispatch(setPlaces(places));
-        });
+        })
+        .catch(err => {
+            alert("Something went wrong");
+            console.log(err);
+        })
     };
 };
 
@@ -60,7 +62,11 @@ export const deletePlace = (key) => {
     .then(res => res.json())
     .then(parsedRes => {
       console.log("done")
-    });
+    })
+    .catch(err => {
+        alert("Something went wrong");
+        console.log(err);
+    })
   };
 };
 
