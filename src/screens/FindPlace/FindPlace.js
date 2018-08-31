@@ -41,8 +41,8 @@ class FindPlaceScreen extends Component {
       toValue: 1,
       duration: 500,
       useNativeDriver: true
-    }).start()
-  }
+    }).start();
+  };
 
   placesSearchHandler = () => {
     Animated.timing(this.state.removeAnimation, {
@@ -70,7 +70,6 @@ class FindPlaceScreen extends Component {
     })
   }
   render () {
-    console.log('quotes: ', this.props.places)
     let content = (
       <Animated.View
         style={{

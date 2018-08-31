@@ -21,26 +21,35 @@ import PickLocation from '../../components/PickLocation';
 import validate from '../../utility/validation';
 
 class SharePlaceScreen extends Component {
-  state = {
-    controls: {
-      placeName: {
-        value: "",
-        valid: false,
-        touched: false,
-        validationRules: {
-          notEmpty: true
-        }
-      },
-      location: {
-        value: null,
-        valid: false
-      }
-    }
-  };
+
+
 
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent)
+  }
+
+  componentWillMount() {
+    this.reset();
+  }
+
+  reset = () => {
+    this.setState({
+      controls: {
+        placeName: {
+          value: "",
+          valid: false,
+          touched: false,
+          validationRules: {
+            notEmpty: true
+          }
+        },
+        location: {
+          value: null,
+          valid: false
+        }
+      }
+    });
   }
 
   onNavigatorEvent = event => {
@@ -88,6 +97,7 @@ locationPickedHandler = location => {
       this.state.controls.placeName.value,
       this.state.controls.location.value
     );
+    this.reset();
   };
 
   render () {
