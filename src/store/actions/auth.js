@@ -4,7 +4,7 @@ import startMainTabs from "../../screens/MainTabs/startMainTabs";
 
 export const tryAuth = (authData, authMode) => {
   return dispatch => {
-    const apiKey = "";
+    const apiKey = "ADD_FIREBASE_API";
     let url = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=" + apiKey;
     if (authMode === "signup") {
         url = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=" + apiKey
