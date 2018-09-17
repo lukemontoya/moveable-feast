@@ -1,41 +1,31 @@
 import { TRY_AUTH, AUTH_SET_TOKEN } from './actionTypes';
 import startMainTabs from "../../screens/MainTabs/startMainTabs";
+import App from '../../../App';
+import { auth } from '../../../firebase';
 
 
 export const tryAuth = (authData, authMode) => {
   return dispatch => {
-    const apiKey = "";
-    let url = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=" + apiKey;
     if (authMode === "signup") {
-        url = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=" + apiKey
-    }
-    fetch(
-        url,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: authData.email,
-            password: authData.password,
-            returnSecureToken: true
-          }),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      )
-        .catch(err => {
-          console.log(err);
-          alert("Authentication failed, try again!");
-        })
-        .then(res => res.json())
-        .then(parsedRes => {
-          if (!parsedRes.idToken) {
+        auth.createUserWithEmailAndPassword(authData.email, authData.password)
+            .catch(err => {
+              console.log("Error creating user", err)
+            })
+            .then(res => {
+              console.log("res", res)
+              console.log('created user: ', auth.currentUser.uid)
+            });
+    }else{
+
+      auth.signInWithEmailAndPassword(authData.email, authData.password)
+          .catch(err => {
+            console.log('_____LOGIN ERROR_____',err);
             alert("Authentication failed, try again!");
-          } else {
-            dispatch(authSetToken(parsedRes.token))
-            startMainTabs();
-          }
-        });
+          })
+          .then(res => {
+            console.log("res", res)
+          });
+    }
   };
 };
 
@@ -57,5 +47,13 @@ export const authGetToken = () => {
       }
     });
     return promise;
+  }
+}
+export const authLogout = () => {
+  return dispatch => {
+    auth.signOut().then(() => {
+      console.log('logging out...')
+    })
+    .catch(err => console.log("error", err))
   }
 }

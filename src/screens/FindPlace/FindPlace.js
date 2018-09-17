@@ -22,9 +22,9 @@ class FindPlaceScreen extends Component {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent)
   }
 
-  componentDidMount() {
-    this.props.onLoadPlaces();
-  }
+  // componentDidMount() {
+  //   this.props.onLoadPlaces();
+  // }
 
   onNavigatorEvent = event => {
     if (event.type === "NavBarButtonPress") {
@@ -45,6 +45,7 @@ class FindPlaceScreen extends Component {
   };
 
   placesSearchHandler = () => {
+    this.props.onLoadPlaces()
     Animated.timing(this.state.removeAnimation, {
       toValue: 0,
       duration: 500,

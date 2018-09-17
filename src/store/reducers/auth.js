@@ -1,7 +1,8 @@
 import { AUTH_SET_TOKEN } from '../actions/actionTypes';
 
 const initialState = {
-  token: null
+  token: null,
+  loggedIn: false
 }
 
 const reducer = (state=initialState, action) => {
@@ -9,10 +10,14 @@ const reducer = (state=initialState, action) => {
     case AUTH_SET_TOKEN:
       return {
         ...state,
-        token: action.token
+        token: action.token,
+        loggedIn: true
       };
     default:
-      return state
+      return {
+        ...state,
+        loggedIn: false
+      }
   }
 };
 

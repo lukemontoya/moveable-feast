@@ -7,16 +7,29 @@ import {
   TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { connect } from 'react-redux';
+import { Navigation } from 'react-native-navigation';
+import { authLogout } from '../../store/actions/auth';
 
 class SideDrawer extends Component {
+
+  handleLogout = () => {
+    this.props.onLogout()
+    Navigation.startSingleScreenApp({
+     screen: {
+       screen: 'moveable-feast.AuthScreen',
+       title: 'Login'
+     }
+   });
+  }
+
   render () {
     return (
       <View style={[
         styles.container,
         {width: Dimensions.get('window').width * .8}
       ]}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={this.handleLogout}>
           <View style={styles.drawerItem}>
             <Icon
               name="ios-log-out"
@@ -49,4 +62,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SideDrawer;
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: () => dispatch(authLogout())
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SideDrawer);

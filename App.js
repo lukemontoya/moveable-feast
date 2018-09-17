@@ -35,15 +35,17 @@ Navigation.registerComponent(
   store,
   Provider
 );
-  Navigation.registerComponent(
-    'moveable-feast.SideDrawerScreen',
-    () => SideDrawerScreen
-  );
+Navigation.registerComponent(
+  'moveable-feast.SideDrawerScreen',
+  () => SideDrawerScreen,
+  store,
+  Provider
+);
 
 //Start App
-Navigation.startSingleScreenApp({
+ Navigation.startSingleScreenApp({
   screen: {
     screen: 'moveable-feast.AuthScreen',
     title: 'Login'
   }
-})
+});

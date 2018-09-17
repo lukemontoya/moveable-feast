@@ -22,6 +22,7 @@ import validate from '../../utility/validation';
 import { tryAuth } from '../../store/actions/index';
 
 import burgerImage from '../../assets/burger.jpg';
+import { auth } from '../../../firebase';
 
 class AuthScreen extends Component {
   state = {
@@ -86,7 +87,10 @@ class AuthScreen extends Component {
       password: this.state.controls.password.value
     }
     this.props.onTryAuth(authData, this.state.authMode);
-    startMainTabs();
+    if(auth.currentUser){
+      console.log(auth.currentUser)
+      startMainTabs();
+    }
   }
 
   updateInputState = (key, value) => {

@@ -1,8 +1,10 @@
 import { SET_PLACES, REMOVE_PLACE } from '../actions/actionTypes';
-
+import { database } from '../../../firebase'
 const initialState = {
   places: []
-}
+};
+
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {

@@ -1,42 +1,40 @@
 import { SET_PLACES, REMOVE_PLACE } from './actionTypes';
 import { uiStartLoading, uiStopLoading } from './index';
+import { auth, database } from '../../../firebase';
+
+
+const places = database.ref('places')
 
 export const addPlace = (placeName, location) => {
   return dispatch => {
     const placeData = {
       name: placeName,
-      location: location
+      location: location,
+      owner: auth.currentUser.uid
     };
-    return fetch("https://moveablefeast-a4fdc.firebaseio.com/places.json", {
-      method: "POST",
-      body: JSON.stringify(placeData)
+    places.push().set(placeData)
+    .then(() => {
+      dispatch(getPlaces())
     })
-
-    .then(res => res.json())
-    .then(parsedRes => {
-      console.log(parsedRes);
-    })
-    .catch(err => console.log(err))
   };
 };
 
 export const getPlaces = () => {
+  console.log('previously logged in user', auth.currentUser.uid)
+
     return dispatch => {
-        fetch("https://moveablefeast-a4fdc.firebaseio.com/places.json")
-        .catch(err => {
-            alert("Something went wrong");
-            console.log(err);
-        })
-        .then(res => res.json())
-        .then(parsedRes => {
-            const places = [];
-            for (let key in parsedRes) {
-                places.push({
-                    ...parsedRes[key],
-                    key: key
-                });
-            }
-            dispatch(setPlaces(places));
+
+        places
+          .orderByChild('owner')
+          .equalTo(auth.currentUser.uid)
+          .on('value', results => {
+          let p = results.val()
+          let arr = []
+          for( let key in p ){
+            arr.push({...p[key], key})
+          }
+          dispatch(setPlaces(arr));
+
         })
     };
 };
@@ -50,18 +48,8 @@ export const setPlaces = places => {
 
 export const deletePlace = (key) => {
   return dispatch => {
-    dispatch(removePlace(key));
-    fetch("https://moveablefeast-a4fdc.firebaseio.com/places/" + key + ".json", {
-      method: "DELETE"
-    })
-    .catch(err => {
-        alert("Something went wrong");
-        console.log(err);
-    })
-    .then(res => res.json())
-    .then(parsedRes => {
-      console.log("done")
-    })
+    places.child(key).remove()
+    .then(() => dispatch(removePlace(key)))
     .catch(err => {
         alert("Something went wrong");
         console.log(err);
